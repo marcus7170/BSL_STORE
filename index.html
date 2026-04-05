@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSL Promoções</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Reset e configurações gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #1a0b2e 0%, #0d0514 70%, #000000 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Container principal */
+        .container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Área da logo */
+        .hero-image-container {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .hero-image-container img {
+            width: 100%;
+            max-width: 300px;
+            filter: drop-shadow(0px 0px 20px rgba(217, 70, 239, 0.4));
+        }
+
+        /* Estilo do Contador Chamativo (Prova Social) */
+        .live-counter {
+            background-color: rgba(255, 0, 60, 0.1);
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            border-radius: 20px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto;
+            width: fit-content;
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.2);
+        }
+
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #ff003c;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff003c;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 0, 60, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 60, 0); }
+        }
+
+        .live-text {
+            color: #ffccd5;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Estilo padrão das caixas (Cards) */
+        .card {
+            background-color: #130a1f;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        /* CAIXA DO CRONÔMETRO (Novo) */
+        .timer-card {
+            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.15);
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            background: linear-gradient(180deg, #130a1f 0%, #1a050a 100%);
+        }
+
+        .timer-title {
+            color: #ff4d4d;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .countdown {
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255, 0, 60, 0.8);
+            margin-top: 5px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Caixa de Estatísticas */
+        .stats-card {
+            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.15);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .stats-title {
+            color: #00e5ff;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+
+        /* Botão do WhatsApp */
+        .whatsapp-btn {
+            background-color: #128C7E;
+            color: white;
+            text-decoration: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(18, 140, 126, 0.4);
+            margin-top: 5px;
+            animation: bounceIn 2s infinite;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #25D366;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+            animation: none;
+        }
+
+        .whatsapp-btn i {
+            font-size: 22px;
+        }
+
+        @keyframes bounceIn {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="hero-image-container">
+            <img src="logo.jpg" alt="Logo BSL">
+        </div>
+
+        <div class="card timer-card">
+            <div class="timer-title">Link expira em:</div>
+            <div class="countdown">
+                <span id="minutos">05</span>:<span id="segundos">00</span>
+            </div>
+        </div>
+        <a href="https://chat.whatsapp.com/GAbiRbuLWMOFYu88KGQuMH" class="whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+            ENTRAR NO GRUPO AGORA
+        </a>
+        <div class="live-counter">
+            <div class="pulse-dot"></div>
+            <span class="live-text"><b id="numero-pessoas">124</b> pessoas acessando agora</span>
+        </div>
+            <div class="card stats-card">
+            <div class="stats-title">+R$430 MIL</div>
+            <div style="color: #9ca3af; font-size: 13px;">em economia para nossos membros</div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Lógica do número de pessoas (Só aumenta)
+        let totalPessoas = 124; // Começa nesse número
+        setInterval(() => {
+            // Adiciona de 1 a 3 pessoas aleatoriamente a cada 4 segundos
+            let novasPessoas = Math.floor(Math.random() * 3) + 1; 
+            totalPessoas += novasPessoas;
+            document.getElementById('numero-pessoas').innerText = totalPessoas;
+        }, 4000); // 4000ms = 4 segundos
+
+        // 2. Lógica do Cronômetro Regressivo (5 minutos)
+        let tempoEmSegundos = 5 * 60; // 5 minutos
+        const elMinutos = document.getElementById('minutos');
+        const elSegundos = document.getElementById('segundos');
+
+        const cronometro = setInterval(() => {
+            if (tempoEmSegundos <= 0) {
+                // Opcional: O que fazer quando zerar? Aqui, deixei travado no 00:00.
+                clearInterval(cronometro);
+                return;
+            }
+            
+            tempoEmSegundos--;
+            
+            // Calcula minutos e segundos restantes
+            let min = Math.floor(tempoEmSegundos / 60);
+            let seg = tempoEmSegundos % 60;
+
+            // Formata para ter sempre dois dígitos (ex: 04, 09)
+            elMinutos.innerText = min < 10 ? '0' + min : min;
+            elSegundos.innerText = seg < 10 ? '0' + seg : seg;
+        }, 1000); // Roda a cada 1 segundo
+    </script>
+
+</body>
+</html>
