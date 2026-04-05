@@ -6,7 +6,6 @@
     <title>BSL Promoções</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -95,7 +94,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
         }
 
-        /* CAIXA DO CRONÔMETRO (Novo) */
+        /* CAIXA DO CRONÔMETRO */
         .timer-card {
             box-shadow: 0 4px 15px rgba(255, 0, 60, 0.15);
             border: 1px solid rgba(255, 0, 60, 0.3);
@@ -184,52 +183,85 @@
                 <span id="minutos">05</span>:<span id="segundos">00</span>
             </div>
         </div>
-        <a href="https://chat.whatsapp.com/GAbiRbuLWMOFYu88KGQuMH" class="whatsapp-btn" target="_blank">
+        
+        <a href="https://chat.whatsapp.com/GAbiRbuLWMOFYu88KGQuMH" class="whatsapp-btn" target="_blank" id="btn-entrar">
             <i class="fab fa-whatsapp"></i>
             ENTRAR NO GRUPO AGORA
         </a>
+        
         <div class="live-counter">
             <div class="pulse-dot"></div>
             <span class="live-text"><b id="numero-pessoas">124</b> pessoas acessando agora</span>
         </div>
-            <div class="card stats-card">
+        
+        <div class="card stats-card">
             <div class="stats-title">+R$430 MIL</div>
             <div style="color: #9ca3af; font-size: 13px;">em economia para nossos membros</div>
         </div>
     </div>
 
     <script>
-        // 1. Lógica do número de pessoas (Só aumenta)
-        let totalPessoas = 124; // Começa nesse número
+        // --- CONFIGURAÇÃO DOS WEBHOOKS ---
+        const urlWebhookAcesso = "https://discord.com/api/webhooks/1490154229724217414/FiHhSVytBWuweF71LBwoZjZ9vGt5Kv4odGKX6wVwHIFx_VS0s5fBfIDV9e18PSb9808k";
+        const urlWebhookClique = "https://discord.com/api/webhooks/1490154354513281064/U-jBrjNr-drzV1_z7Ewu8wfw1c99FbZdd2zG7kwGhMTbZNCvoXoQ1ehiPksKXfCSicT7";
+
+        let userIP = "Desconhecido"; // Variável global para guardar o IP
+
+        function enviarParaDiscord(url, mensagem) {
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content: mensagem
+                })
+            }).catch(error => console.error('Erro ao enviar webhook:', error)); 
+        }
+
+        // 1. OBTÉM O IP E DISPARA O WEBHOOK DE ACESSO
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                userIP = data.ip; // Salva o IP descoberto
+                enviarParaDiscord(urlWebhookAcesso, `<@202238690536325120> 👀 **NOVO ACESSO!**\n🌐 IP: \`${userIP}\` acabou de entrar na página BSL Promoções.`);
+            })
+            .catch(error => {
+                console.error("Erro ao pegar IP", error);
+                // Envia mesmo se der erro ao pegar o IP (caso bloqueadores de anúncio interfiram)
+                enviarParaDiscord(urlWebhookAcesso, `<@202238690536325120> 👀 **NOVO ACESSO!**\n🌐 IP: \`Bloqueado/Desconhecido\` acabou de entrar na página BSL Promoções.`);
+            });
+
+        // 2. DISPARA QUANDO O BOTÃO É CLICADO (Usando o IP salvo)
+        document.getElementById('btn-entrar').addEventListener('click', () => {
+            enviarParaDiscord(urlWebhookClique, `<@202238690536325120> 🚀 **CLIQUE NO LINK!**\n🌐 IP: \`${userIP}\` clicou no botão para entrar no grupo do WhatsApp.`);
+        });
+        // ----------------------------------
+
+
+        // --- LÓGICA DO CONTADOR E CRONÔMETRO ---
+        let totalPessoas = 124; 
         setInterval(() => {
-            // Adiciona de 1 a 3 pessoas aleatoriamente a cada 4 segundos
             let novasPessoas = Math.floor(Math.random() * 3) + 1; 
             totalPessoas += novasPessoas;
             document.getElementById('numero-pessoas').innerText = totalPessoas;
-        }, 4000); // 4000ms = 4 segundos
+        }, 4000); 
 
-        // 2. Lógica do Cronômetro Regressivo (5 minutos)
-        let tempoEmSegundos = 5 * 60; // 5 minutos
+        let tempoEmSegundos = 5 * 60; 
         const elMinutos = document.getElementById('minutos');
         const elSegundos = document.getElementById('segundos');
 
         const cronometro = setInterval(() => {
             if (tempoEmSegundos <= 0) {
-                // Opcional: O que fazer quando zerar? Aqui, deixei travado no 00:00.
                 clearInterval(cronometro);
                 return;
             }
-            
             tempoEmSegundos--;
-            
-            // Calcula minutos e segundos restantes
             let min = Math.floor(tempoEmSegundos / 60);
             let seg = tempoEmSegundos % 60;
-
-            // Formata para ter sempre dois dígitos (ex: 04, 09)
             elMinutos.innerText = min < 10 ? '0' + min : min;
             elSegundos.innerText = seg < 10 ? '0' + seg : seg;
-        }, 1000); // Roda a cada 1 segundo
+        }, 1000); 
     </script>
 
 </body>
