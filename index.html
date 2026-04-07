@@ -168,7 +168,23 @@
         }
 
     </style>
-</head>
+
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '930897552869860');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=930897552869860&ev=PageView&noscript=1"
+    /></noscript>
+    </head>
 <body>
 
     <div class="container">
@@ -232,9 +248,14 @@
                 enviarParaDiscord(urlWebhookAcesso, `<@202238690536325120> 👀 **NOVO ACESSO!**\n🌐 IP: \`Bloqueado/Desconhecido\` acabou de entrar na página BSL Promoções.`);
             });
 
-        // 2. DISPARA QUANDO O BOTÃO É CLICADO (Usando o IP salvo)
+        // 2. DISPARA QUANDO O BOTÃO É CLICADO E AVISA O META PIXEL
         document.getElementById('btn-entrar').addEventListener('click', () => {
             enviarParaDiscord(urlWebhookClique, `<@202238690536325120> 🚀 **CLIQUE NO LINK!**\n🌐 IP: \`${userIP}\` clicou no botão para entrar no grupo do WhatsApp.`);
+            
+            // Dispara o evento de "Lead" para o Meta Pixel
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Lead');
+            }
         });
         // ----------------------------------
 
